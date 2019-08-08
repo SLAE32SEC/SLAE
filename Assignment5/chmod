@@ -1,0 +1,26 @@
+CHMOD
+
+00000000 99                              cdq ; copies sign bit of EAX (31) into every bit in EDX
+00000001 6A0F                         push byte +0xf ; pushes 15(chmod syscall) onto stack
+00000003 58                              pop eax ; places 15 into eax
+00000004 52                               push edx ; pushes 0 into the stack
+00000005 E817000000             call 0x21 ; performs call-pop to save a string for later
+0000000A 2F                              das ; these byte represents “/root/Desktop/test.txt”
+0000000B 726F                          jc 0x7c
+0000000D 6F                              outsd
+0000000E 742F                          jz 0x3f
+00000010 44                               inc esp
+00000011 65736B                      gs jnc 0x7f
+00000014 746F                          jz 0x85
+00000016 702F                          jo 0x47
+00000018 7465                          jz 0x7f
+0000001A 7374                         jnc 0x90
+0000001C 2E7478                     cs jz 0x97
+0000001F 7400                          jz 0x21
+00000021 5B                              pop ebx ; ebx now contains “/root/Desktop/test.txt” string
+00000022 68B6010000             push dword 0x1b6 ; pushes chmod mode onto stack
+00000027 59                               pop ecx ; places chmod mode into ecx
+00000028 CD80                          int 0x80 ; executes chmod
+0000002A 6A01                          push byte +0x1 ; pushes syscall exit onto stack
+0000002C 58                               pop eax ; places exit syscall into eax
+0000002D CD80                          int 0x80 ; executes exit gracefully
