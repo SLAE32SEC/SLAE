@@ -7,3 +7,5 @@ echo '[+] Linking ...'
 ld -o $1 $1.o
 
 echo '[+] Done!'
+
+
